@@ -1,0 +1,1198 @@
+************1*************
+
+begin
+dbms_output.put_line('my first prgm');
+end;
+/
+
+************2*************
+
+declare 
+n1 number(2);
+n2 number(2):=10;
+begin
+n1:=10;
+dbms_output.put_line(n1+n2);
+end;
+/
+
+************3*************
+
+declare 
+n1 number(2) not null:=2;
+n2 number(2):=10;
+begin
+n1:=10;
+dbms_output.put_line(n1+n2);
+end;
+/
+
+*******************************************************
+
+declare 
+n1 number(2) not null:=2;
+n2 number(2):=10;
+n3 constant number(2):=10;
+begin
+n1:=10;
+dbms_output.put_line(n1+n2);
+end;
+/
+
+*******************************************************
+
+declare 
+n1 number(2) not null:=2;
+n2 number(2):=10;
+n3 constant number(2):=10;
+v_ename varchar2(10);
+doj date:=sysdate;
+begin
+n1:=10;
+v_ename:='ABC';
+dbms_output.put_line(n1+n2);
+dbms_output.put_line(n1 || 'ename:' || v_ename || 'joined on:' || doj);
+end;
+/
+
+*******************************************************
+
+declare 
+n1 number(2) not null:=2;
+n2 number(2):=10;
+n3 constant number(2):=10;
+v_ename varchar2(10);
+doj date:=sysdate;
+begin
+n1:=10;
+v_ename:='ABC';
+dbms_output.put_line(n1+n2);
+dbms_output.put_line(n1 || 'ename:' || v_ename || 'joined on:' || to_char(doj,'ddspth month year'));
+end;
+/
+
+*******************************************************
+
+begin
+update emp set sal=sal+1000 where ename='a';
+end;
+/
+
+*******************************************************
+
+begin
+select ename from emp where empno=7902;
+end;
+/
+
+*******************************************************
+
+declare
+v_ename varchar2(25);
+begin
+select ename into v_ename from emp where empno=7902;
+dbms_output.put_line(v_ename);
+end;
+/
+
+*******************************************************
+
+declare
+v_ename varchar2(3);
+begin
+select ename into v_ename from emp where empno in(7902);
+dbms_output.put_line(v_ename);
+end;
+/
+
+
+
+*******************************************************
+*******************************************************
+
+%type programming
+
+declare
+v_ename emp.ename%type;
+begin
+select ename into v_ename from emp where empno in(7902);
+dbms_output.put_line(v_ename);
+end;
+/
+
+*******************************************************
+
+create a block to display the highest paid employee?
+
+declare
+v_ename emp.ename%type;
+begin
+select ename into v_ename from emp where sal=(select max(sal) from emp);
+dbms_output.put_line(v_ename);
+end;
+/
+
+*******************************************************
+
+create a block to display the highest paid employee,dept no & job?
+
+declare
+v_ename emp.ename%type;
+v_dno emp.deptno%type;
+v_job emp.job%type;
+begin
+select ename,deptno,job into v_ename,v_dno,v_job from emp where sal=(select max(sal) from emp);
+dbms_output.put_line(v_ename || 'gets highest sal in dept' || v_dno || 'and works as '|| v_job);
+end;
+/
+
+*******************************************************
+*******************************************************
+
+%rowtype
+similar to structures in C- one object having many elements of many datatypes.
+
+/*To display details of dept 10
+using rowtype*/
+declare
+d_rec dept%rowtype;
+begin
+
+select * into d_rec from dept where deptno=10;
+-- to fetch each attribute qualify the attr
+-- with rowtype variable
+dbms_output.put_line(d_rec.deptno || 'dname:' ||d_rec.dname || 'location:' ||d_rec.loc);
+end;
+/
+
+
+*******************************************************
+
+declare
+d_rec dept%rowtype;
+begin
+/*To display details of dept 10
+using rowtype*/
+select * into d_rec from dept where deptno=&no;
+-- to fetch each attribute qualify the attr
+-- with rowtype variable
+dbms_output.put_line(d_rec.deptno || 'dname:' ||d_rec.dname || 'location:' ||d_rec.loc);
+end;
+/
+
+*******************************************************
+
+SEQUENCE
+SELECTION 
+ITERATION
+
+
+SELECTION
+if criterial then
+true
+else
+false
+end if;
+
+
+if cri1 then
+true
+else
+if cri2 then
+true
+else
+false
+end if;
+end if;
+
+
+if cri1 then
+if cri2 then
+end if;
+end if;
+
+
+if cri1 then
+true
+elsif cri2 then
+true
+else
+false
+end if;
+
+*******************************************************
+
+
+declare
+d_rec dept%rowtype;
+v_count number(3);
+begin
+select * into d_rec from dept where deptno=&no;
+if d_rec.deptno=20 then
+select count(*) into v_count from emp where deptno=d_rec.deptno;
+dbms_output.put_line('the no of emps:' || v_count);
+end if;
+dbms_output.put_line(d_rec.deptno || 'dname:' ||d_rec.dname || 'location:' ||d_rec.loc);
+end;
+/
+
+*******************************************************
+
+LOOPING
+
+basic loop- executes atleast once
+for loop
+while loop
+
+
+BASIC LOOP
+syntax:
+loop
+_____
+--exit
+_____
+--exit when
+
+end loop;
+
+*******************************************************
+
+To print nos 1-5:
+
+declare 
+ct number(2):=1;
+begin
+loop
+dbms_output.put_line(ct);
+if ct=5 then
+exit;
+end if;
+ct:=ct+1;
+end loop;
+end;
+/
+
+*******************************************************
+
+declare 
+ct number(2):=1;
+begin
+loop
+dbms_output.put_line(ct);
+exit when ct=5;
+ct:=ct+1;
+end loop;
+end;
+/
+
+*******************************************************
+
+declare
+	d_rec dept%rowtype;
+	v_count number(3);
+	v_dno dept.deptno%type:=10;
+begin
+loop
+	select * into d_rec from dept where deptno=v_dno;
+	if d_rec.deptno=v_dno then
+	select count(*) into v_count from emp where deptno=d_rec.deptno;
+	dbms_output.put_line('the no of emps:' || v_count);
+end if;
+	dbms_output.put_line(d_rec.deptno || ' dname: ' ||d_rec.dname || ' location: ' ||d_rec.loc);
+	exit when v_dno=40;
+	v_dno:=v_dno+10;
+end loop;
+end;
+/
+
+*******************************************************
+
+declare
+ct number(2):=1;
+begin
+while(ct<=5)
+loop
+dbms_output.put_line(ct);
+ct:=ct+1;
+end loop;
+dbms_output.put_line('end of loop');
+end;
+/
+
+*******************************************************
+
+begin
+for i in 1..4
+loop
+dbms_output.put_line(i);
+end loop;
+end;
+/
+
+*******************************************************
+
+begin
+	for i in reverse 1..4
+		loop
+			dbms_output.put_line(i);
+		end loop;
+end;
+/
+
+**************************************************************************************************************
+**************************************************************************************************************
+**************************************************************************************************************
+**************************************************************************************************************
+**************************************************************************************************************
+ 
+SESSION-2 DAY-4
+
+CURSOR
+
+*******************************************************
+
+To create a block to accept the empno, if the given employee is a MANAGER then store the record in copy_emp.
+else disp the details like empno,ename,deptno,job of that employee.
+
+declare
+	e_rec copy_emp%rowtype;
+begin
+	select empno,ename,job,deptno into e_rec from emp where empno=&no;
+	if e_rec.job='MANAGER' then
+		insert into copy_emp values e_rec;
+		commit;
+		dbms_output.put_line('record inserted');
+	else 
+		dbms_output.put_line('empno:'|| e_rec.empno || 'ename:'||e_rec.ename||'job:'||e_rec.job|| 
+		'deptno:'||e_rec.deptno);
+		dbms_output.put_line('end of transaction');
+	end if;	
+end;
+/
+
+*******************************************************
+
+begin
+update copy_emp set deptno=10 where ename='FORD';
+dbms_output.put_line('record updated');
+end;
+/
+
+*******************************************************
+
+begin
+update copy_emp set deptno=10 where ename='a';
+dbms_output.put_line('record updated');
+end;
+/
+
+*******************************************************
+
+begin
+update copy_emp set deptno=10 where ename='FORD';
+if sql%found then
+dbms_output.put_line('record updated');
+else
+dbms_output.put_line('record not updated invalid empname');
+end if;
+end;
+/
+
+*******************************************************
+
+begin
+update copy_emp set deptno=10 where ename='a';
+if sql%found then
+dbms_output.put_line('record updated');
+else
+dbms_output.put_line('record not updated invalid empname');
+end if;
+end;
+/
+
+*******************************************************
+
+begin
+update copy_emp set deptno=10 where ename='FORD';
+if sql%found then
+dbms_output.put_line('record updated :' || sql%rowcount);
+else
+dbms_output.put_line('record not updated invalid empname');
+end if;
+end;
+/
+
+*******************************************************
+
+EXPLICIT
+
+TO create a block to disp ename,annual sal for all emps working in dept 10
+
+declare
+	cursor emp_cur is select ename,sal*12 annual from emp where deptno=10;
+	v_ename emp.ename%type;
+	v_annual number(10,2);
+begin
+	open emp_cur;
+	fetch emp_cur into v_ename,v_annual;
+	dbms_output.put_line('ename:'|| v_ename || ' earns annually:' || v_annual);
+	close emp_cur;
+end;
+
+
+*******************************************************
+
+declare
+	cursor emp_cur is select ename,sal*12 annual from emp where deptno=10;
+	v_ename emp.ename%type;
+	v_annual number(10,2);
+begin
+	open emp_cur;
+	loop
+	fetch emp_cur into v_ename,v_annual;
+	exit when emp_cur%notfound;
+	dbms_output.put_line('ename:'|| v_ename || ' earns annually:' || v_annual);
+	end loop;
+	close emp_cur;
+end;
+
+
+*******************************************************
+
+declare
+	cursor dept_cur is select * from dept;
+	v_dname dept.dname%type;
+	v_deptno dept.deptno%type;
+	v_loc dept.loc%type;
+begin
+	open dept_cur;
+	loop
+	fetch dept_cur into v_deptno,v_dname,v_loc;
+	exit when dept_cur%notfound;
+	dbms_output.put_line(' deptno#' || v_deptno|| ' dname#'|| v_dname || ' loc#' || v_loc);
+	end loop;
+	close dept_cur;
+end;
+/
+
+*******************************************************
+
+PARAMETERIZED CURSOR
+^^^^^^^^^^^^^^^^^^^^
+
+
+declare
+	cursor c1(p_dno dept.deptno%type) is select * from emp where deptno=p_dno;
+	e_rec emp%rowtype;
+	begin
+	open c1(10);
+	loop
+		fetch c1 into e_rec;
+		exit when c1%notfound;
+		dbms_output.put_line(' deptno is '|| e_rec.deptno|| ' and ename: ' ||e_rec.ename);
+	end loop;
+	close c1;
+		dbms_output.put_line('----------------------------------------------');
+	open c1(20);
+	loop
+		fetch c1 into e_rec;
+		exit when c1%notfound;
+		dbms_output.put_line(' deptno is '|| e_rec.deptno|| ' and ename: ' ||e_rec.ename);
+	end loop;
+	close c1;
+end;
+/
+
+
+*******************************************************
+
+declare
+	cursor d_cur is select * from dept;
+	cursor e_cur(p_dno dept.deptno%type) is select * from emp where deptno=p_dno;
+	d_rec dept%rowtype;	
+	e_rec emp%rowtype;
+begin
+	open d_cur;
+	loop
+		fetch d_cur into d_rec;
+		exit when d_cur%notfound;
+		dbms_output.put_line(' deptno is '|| d_rec.deptno|| ' and dname: ' ||d_rec.dname);
+	open e_cur(d_rec.deptno);
+	loop
+		fetch e_cur into e_rec;
+		exit when e_cur%notfound;
+		dbms_output.put_line(' deptno is '|| e_rec.deptno|| ' and ename: ' ||e_rec.ename);
+	end loop;
+	close e_cur;
+	dbms_output.put_line('----------------------------------------------');
+	end loop;
+	close d_cur;
+end;
+/
+
+*******************************************************
+
+CURSOR FOR LOOP
+^^^^^^^^^^^^^^^
+
+declare
+	cursor c1 is select * from dept;
+begin
+	for dept_rec in c1
+	loop
+	dbms_output.put_line(dept_rec.deptno ||dept_rec.dname);
+	end loop;
+end;
+/
+
+*******************************************************
+
+declare
+	cursor c1 is select * from dept;
+begin
+	for dept_rec in c1
+	loop
+	if dept_rec.deptno > 10 then
+	dbms_output.put_line(dept_rec.deptno ||dept_rec.dname);
+	end if;
+	end loop;
+end;
+/
+
+*******************************************************
+
+declare
+	cursor c1(p number) is select * from dept where deptno=p;
+begin
+	for dept_rec in c1(30)
+	loop
+	dbms_output.put_line(dept_rec.deptno ||dept_rec.dname);
+	end loop;
+end;
+/
+
+*******************************************************
+
+declare
+v_ename emp.ename%type;
+begin
+select ename into v_ename from emp where empno=7777;
+dbms_output.put_line('ename:' || v_ename);
+end;
+/
+
+declare
+v_ename emp.ename%type;
+begin
+select ename into v_ename from emp where empno in(7902,7698);
+dbms_output.put_line('ename:' || v_ename);
+end;
+/
+
+declare
+	v_ename emp.ename%type;
+begin
+	select ename into v_ename from emp where empno in(7902,7698);
+	dbms_output.put_line('ename:' || v_ename);
+exception 
+	when too_many_rows then
+		dbms_output.put_line('use cursor to handle');
+end;
+/
+
+
+declare
+	v_ename emp.ename%type;
+begin
+	select ename into v_ename from emp where empno in(790,769);
+	dbms_output.put_line('ename:' || v_ename);
+exception 
+	when too_many_rows then
+		dbms_output.put_line('use cursor to handle');
+	when no_data_found then
+		dbms_output.put_line('Emp not found');
+end;
+/
+
+
+declare
+	v_ename emp.empno%type;
+begin
+	select ename into v_ename from emp where empno in(7698);
+	dbms_output.put_line('ename:' || v_ename);
+exception 
+	when too_many_rows then
+		dbms_output.put_line('use cursor to handle');
+	when no_data_found then
+		dbms_output.put_line('Emp not found');
+	when others then
+		dbms_output.put_line('congradulations yo have got an error');
+end;
+/
+
+
+user error code: 20000-20999
+sqlcode
+sqlerrm
+
+
+
+declare
+	v_ename emp.empno%type;
+begin
+	select ename into v_ename from emp where empno in(7698);
+	dbms_output.put_line('ename:' || v_ename);
+exception 
+	when too_many_rows then
+		dbms_output.put_line('use cursor to handle');
+	when no_data_found then
+		dbms_output.put_line('Emp not found');
+	when others then
+		dbms_output.put_line('congradulations yo have got an error');
+		dbms_output.put_line(sqlcode);
+		dbms_output.put_line(sqlerrm);
+end;
+/
+
+
+
+RAISE_APPLICATION_ERROR('ERRNUM','MESSAGE');
+
+
+
+declare
+	v_ename emp.ename%type;
+begin
+	select ename into v_ename from emp where empno in(769);
+	dbms_output.put_line('ename:' || v_ename);
+exception 
+	when too_many_rows then
+		dbms_output.put_line('use cursor to handle');
+	when no_data_found then
+	raise_application_error(-20001,'Emp not found');
+	when others then
+		dbms_output.put_line('congradulations yo have got an error');
+		dbms_output.put_line(sqlcode);
+		dbms_output.put_line(sqlerrm);
+end;
+/
+
+#############################################################################################################
+
+Exception 
+predefined- raised implicit
+user defined- raised explicit
+
+
+select * from product;
+/
+
+select * from tran;
+/
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+USER DEFINED EXCEPTION
+
+declare 
+raise
+handle
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+Create a block to add a transaction, accept all values for the tran values before inserting the 
+record, validate the values
+1-check if the product exists in product master
+2-if exists,check if quantity ordered is less than the stock, then proceed with the transaction
+3-after the insert of tran table,corresponging product stock need to be updated(stock=stock-
+quantity ordered)
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+declare 
+	 p_rec product%rowtype;
+	 t_rec tran%rowtype;
+	 cursor prod_cur(p_pid product.pid%type) is select * from product where pid=p_pid;
+begin
+	 t_rec.tid:=&tid;
+	 t_rec.pid:=&pid;
+	 t_rec.qtyord:=&qty;
+	 t_rec.dot:=sysdate;
+
+	 open prod_cur(t_rec.pid);
+	 fetch prod_cur into p_rec;
+	  if prod_cur%found then
+	   if t_rec.qtyord<p_rec.stock then
+	   	insert into tran values t_rec;
+		update product set stock=stock-t_rec.qtyord where pid=t_rec.pid;
+    		commit;
+   	   else 
+	   	dbms_output.put_line('insufficient stock');
+	   end if;
+  	  else
+		dbms_output.put_line('product is invalid');
+  		end if;
+		dbms_output.put_line('transaction complete');
+	close prod_cur;  
+end;
+/
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+declare 
+	p_rec product%rowtype;
+	t_rec tran%rowtype;
+	cursor prod_cur(p_pid product.pid%type) is select * from product where pid=p_pid;
+	stk_ex exception;
+	pid_error_ex exception;
+begin
+	t_rec.tid:=&tid;
+	t_rec.pid:=&pid;
+	t_rec.qtyord:=&qty;
+	t_rec.dot:=sysdate;
+
+	open prod_cur(t_rec.pid);
+		fetch prod_cur into p_rec;
+		if prod_cur%found then
+			if t_rec.qtyord<p_rec.stock then
+				insert into tran values t_rec;
+				update product set stock=stock-t_rec.qtyord where pid=t_rec.pid;
+				commit;
+			else 
+				raise stk_ex;			
+			end if;
+		else
+			raise pid_error_ex;			
+		end if;
+			dbms_output.put_line('transaction complete');
+	close prod_cur; 	
+exception
+	when stk_ex then
+		dbms_output.put_line('insufficient stock');
+	when pid_error_ex then
+		dbms_output.put_line('product is invalid');
+end;
+/
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+*******************************  27th aug end*************
+NAMED BLOCKS OR SUB PROGRAMS
+
+REUSE - BLOCKS
+
+TWO TYPES:
+1.procedure - to process some commands and no need to return any values
+		It may or may not return value. 
+		It can be 'called' as an individual command.
+2.function - to process some commands and must return values
+
+
+------------------------------------------------
+
+create or replace procedure disp is
+begin
+dbms_output.put_line('procedure called');
+end;
+
+
+>exec disp;
+
+>select * from user_procedures;
+>select text from user_source where name='DISP';
+
+
+in parameter - only for passing
+out parameter - for passing and return
+in out - 
+
+By default 'in' parameter is used.
+
+
+
+create a procedure to pass the empno and increment_sal as parameters and update the 
+respective employee with the increment sal
+
+create or replace procedure emp_incr(p_eno emp.empno%type,p_incr number) is
+begin
+update emp set sal=sal+p_incr where empno=p_eno;
+if sql%found then
+commit;
+else
+dbms_output.put_line('no update');
+end if;
+end;
+
+________________________________________________________________________________
+
+----IN-----
+
+create or replace procedure emp_incr(p_eno in emp.empno%type,p_incr in number) is
+begin
+update emp set sal=sal+p_incr where empno=p_eno;
+if sql%found then
+commit;
+else
+dbms_output.put_line('no update');
+end if;
+end;
+________________________________________________________________________________
+________________________________________________________________________________
+CALLING A PROCEDURE INTO ANOTHER BLOCK
+
+----OUT-----
+
+declare
+v_eno emp.empno%type:=&eno;
+v_incr number(4):=&incr;
+begin
+emp_incr(v_eno,v_incr);
+dbms_output.put_line('processed');
+end;
+________________________________________________________________________________
+
+
+in - read
+out - write
+
+
+create or replace procedure get_name(p_eno in emp.empno%type,p_ename out emp.ename%type) is
+begin
+	select ename into p_ename from emp where empno=p_eno;
+exception 
+	when no_data_found then
+	dbms_output.put_line('invalid empno');
+end;
+/
+
+________________________________________________________________________________
+
+host variable--sql plus tool
+
+
+variable v_ename varchar2
+exec get_name(7902,:v_ename)
+
+variable v_name varchar2(20)
+exec get_name(7902,:v_name)
+print v_name
+
+**********************Zensar End******
+________________________________________________________________________________
+
+declare
+v_ename emp.ename%type;
+v_eno emp.empno%type:=&eno;
+begin
+get_name(v_eno,v_ename);
+dbms_output.put_line(v_ename);
+end;
+
+________________________________________________________________________________
+
+IN & OUT- read and write
+
+sal 100
+sal 100+1000
+
+create or replace procedure sal_raise(p_sal in out emp.sal%type)
+is 
+begin
+p_sal:=p_sal+1000;
+end;
+/
+
+________________________________________________________________________________
+
+declare 
+v_sal emp.sal%type:=6000;
+begin
+sal_raise(v_sal);
+dbms_output.put_line(v_sal);
+end;
+/
+
+________________________________________________________________________________
+
+CONVERTING UNNAMED TO NAMED BLOCK
+
+create or replace procedure tran_entry(p_tid tran.tid%type,p_pid tran.pid%type,
+p_qty tran.qtyord%type)
+is
+	 p_rec product%rowtype;
+	 t_rec tran%rowtype;
+	 cursor prod_cur(p_pid product.pid%type) is select * from product where pid=p_pid;
+begin
+	 t_rec.tid:=p_tid;
+	 t_rec.pid:=p_pid;
+	 t_rec.qtyord:=p_qty;
+	 t_rec.dot:=sysdate;
+
+	 open prod_cur(t_rec.pid);
+	 fetch prod_cur into p_rec;
+	  if prod_cur%found then
+	   if t_rec.qtyord<p_rec.stock then
+	   	insert into tran values t_rec;
+		update product set stock=stock-t_rec.qtyord where pid=t_rec.pid;
+    		commit;
+   	   else 
+	   	dbms_output.put_line('insufficient stock');
+	   end if;
+  	  else
+		dbms_output.put_line('product is invalid');
+  		end if;
+		dbms_output.put_line('transaction complete');
+	close prod_cur;  
+end;
+/
+
+________________________________________________________________________________
+@!#$!@#$!#@$!#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$$%^&*%^&*%^&*%^&*%&^*%^&*%&^*
+
+
+Functions must return value
+	  must be part of an expression
+	  By default all parameters are 'in' type
+	  return keyword to return values to the calling module
+
+________________________________________________________________________________
+
+To Create a function pass salary as parameter and return the annual salary
+
+
+>create or replace function annual(p_sal emp.sal%type) return number
+is 
+begin
+return p_sal*12;
+end;
+/
+
+________________________________________________________________________________
+
+functions cannot be executed using exec.
+
+
+>select  empno,ename,sal,annual(sal) annual_salary from emp;
+/
+
+________________________________________________________________________________
+
+>declare 
+v_annual number(10,2);
+begin
+v_annual:=annual(2000);
+dbms_output.put_line(v_annual);
+end;
+/
+
+________________________________________________________________________________
+
+To create a function to check if the given deptno exists in dept master, if it 
+exists then return true else return false.
+
+
+create or replace function deptck(p_dept dept.deptno%type) return boolean
+is 
+	v_dno dept.deptno%type;
+begin
+	select deptno into v_dno from dept where deptno=p_dept;
+	return TRUE;
+exception 
+	when no_data_found then
+	return FALSE;
+end;
+/
+
+
+________________________________________________________________________________
+
+TO EXECUTE THE ABOVE PROGRAM
+
+>begin
+if deptck(&dnum) then
+dbms_output.put_line('valid');
+else
+dbms_output.put_line('in valid');
+end if;
+end;
+/
+
+________________________________________________________________________________
+
+USING CURSOR
+^^^^^^^^^^^^
+
+create or replace function deptck(p_dept dept.deptno%type) return boolean
+is 
+	v_dno dept.deptno%type;
+cursor c1 is select deptno from dept where deptno=p_dept;
+begin
+	open c1;
+		fetch c1 into v_dno;
+		if c1%found then
+		return TRUE;
+		else
+		return FALSE; 
+	end if;
+end;
+/
+
+________________________________________________________________________________
+
+
+PACKAGE is a collection of
+	procedures 
+	function
+	variables
+
+
+
+packages has two parts:
+1.specification
+2.body
+
+
+drop procedure emp_incr;
+
+
+create or replace package e_pack 
+is 
+function annual(p_sal emp.sal%type) return number;
+procedure emp_incr(p_eno in emp.empno%type,p_incr in number);
+end;
+/
+
+create or replace package body e_pack 
+is
+	function annual(p_sal emp.sal%type) return number
+	is 
+	begin
+		return p_sal*12;
+	end annual;
+	
+	procedure emp_incr(p_eno in emp.empno%type,p_incr in number) is
+	begin
+		update emp set sal=sal+p_incr where empno=p_eno;
+		if sql%found then
+		commit;
+		else
+		dbms_output.put_line('no update');
+		end if;
+	end emp_incr;
+end e_pack;
+/
+
+select ename,sal,e_pack.annual(sal) annual_salary from emp;
+/
+
+________________________________________________________________________________
+
+TRIGGERS:
+
+Types:
+1.Application trigger
+2.Database trigger
+
+event/action
+
+trig-named blocks
+
+name- 
+event- insert,delete,update
+timing- after,before
+on table- table name 
+level- row level(for each row), statement level
+when
+
+create table emp_counter as select count(*) counter from emp;
+
+select * from emp_counter;
+
+create table emp1 as select * from emp;
+
+select * from emp1;
+
+select * from user_triggers;
+
+___________________________________________________________________________________
+
+create trigger emp_ins_trig
+after insert on emp1 for each row
+begin
+	update emp_counter set counter=counter+1;
+	
+end;
+/
+___________________________________________________________________________________
+
+create trigger emp_del_trig
+after delete on emp1 for each row
+begin
+	update emp_counter set counter=counter-1;
+	
+end;
+/
+
+
+TRIGGER TO UPDATE:
+	
+create or replace trigger emp_up_trig
+before update on emp1 for each row
+begin
+if :old.sal > :new.sal then
+raise_application_error(-20100,'new salary must be greater than old salary');
+end if;
+end;
+
+
+create table emp_his as select empno,ename,deptno,hiredate doj,hiredate dor from emp1 
+where 1=2;
+
+
+create or replace trigger emp_del_trig
+after delete on emp1 for each row
+begin
+	update emp_counter set counter=counter-1;
+	insert into emp_his values(:old.empno,:old.ename,:old.deptno,:old.hiredate,sysdate);	
+end;
+/
+
+
+drop trigger emp_up_trig
+/
+
+
+create or replace trigger emp1_all_trig after insert or delete or update on emp1 
+for each row
+begin
+	raise_application_error(-20101,'DML NOT ALLOWED');
+end;
+
+
+create or replace trigger emp1_all_trig after insert or delete or update on emp1 
+for each row
+begin
+	if to_char(sysdate,'DY')='WED' then
+	raise_application_error(-20101,'DML NOT ALLOWED');
+end if;
+end;
+
+
+
+create or replace trigger emp1_all_trig after insert or delete or update on emp1 
+for each row
+begin
+	if inserting then
+		update emp_counter set counter=counter+1;
+	elsif updating then
+		if :old.sal > :new.sal then
+		raise_application_error(-20101,'SALARY ERROR');
+	end if;
+	elsif deleting then
+		update emp_counter set counter=counter-1;
+	end if;
+end;
+/
+
+                       

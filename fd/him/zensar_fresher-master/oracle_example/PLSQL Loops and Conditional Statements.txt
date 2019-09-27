@@ -1,0 +1,160 @@
+=========================================================================================
+//-- use of if-else
+
+declare
+	x number;
+begin
+	x := 1;
+	if x=1 then
+		dbms_output.put_line('x = 1');
+	elsif x=2 then
+		dbms_output.put_line('x = 2');
+	elsif x=3 then
+		dbms_output.put_line('x = 3');
+	elsif x>2 then
+		dbms_output.put_line('x > 2');
+	end if;
+end;
+/
+=========================================================================================
+
+//-- use of else clause
+
+declare
+	x number;
+begin
+	x := 3;
+	if x=4 then
+		dbms_output.put_line('x = 4');
+	elsif x > 4 then
+		dbms_output.put_line('x > 4');
+	else
+		dbms_output.put_line('x <> 4 and x < 2');
+	end if;
+end;
+/
+
+=========================================================================================
+
+// The effect of a null on a Boolean expression
+
+declare
+	x number;
+begin
+	if x=2 then
+		dbms_output.put_line('x=2');
+	elsif x<>2 then
+		dbms_output.put_line('x<>2');
+	else
+		dbms_output.put_line('x is NULL');
+	end if;
+end;
+
+		
+=========================================================================================
+// Storing the result of an expression in a Boolean variable
+
+declare
+	b boolean;
+	x number;
+begin
+	b := (x=2);
+
+	if b=true then
+		dbms_output.put_line('expression is true');
+	elsif b=false then
+		dbms_output.put_line('expression is false');
+	else
+		dbms_output.put_line('null value');
+	end if;
+end;
+
+=========================================================================================
+
+// writing simple "while" loop
+
+declare
+	x number;
+begin
+	x := 0;
+
+	while x <= 3 loop
+		x := x+1;
+		dbms_output.put_line(x);
+	end loop;
+end;
+
+=========================================================================================
+
+// writing a for loop
+declare
+	x number;
+begin
+	for x in 1..10 loop
+		dbms_output.put_line(x);
+	end loop;
+end;
+=========================================================================================
+
+// writing an infinite loop
+
+declare 
+	x number;
+begin
+	x := 0;
+	loop
+		x := x+1;
+		dbms_output.put_line(x);
+
+		//if x=3 then
+		//	exit;
+		//end if;
+	end loop;
+end;
+
+=========================================================================================
+
+// writing an infinite loop - with 'exit when' statement
+
+declare 
+	x number;
+begin
+	x := 0;
+	loop
+		x := x+1;
+		dbms_output.put_line(x);
+
+		exit when x=3;
+	end loop;
+end;
+
+=========================================================================================
+// Using the NULL Statement
+
+declare
+	x number;
+begin
+	x := 2;
+	if x=2 then
+		dbms_output.put_line(x);
+	else
+		NULL;
+	end if;
+end;
+=========================================================================================
+// Another way to use the REPEAT...UNTIL loop
+
+declare
+	x number;
+begin
+	x := 0;
+
+	<<repeat_loop>>
+
+	x := x+1;
+	dbms_output.put_line(x);
+
+	if x < 3 then
+		goto repeat_loop;
+	end if;
+end;
